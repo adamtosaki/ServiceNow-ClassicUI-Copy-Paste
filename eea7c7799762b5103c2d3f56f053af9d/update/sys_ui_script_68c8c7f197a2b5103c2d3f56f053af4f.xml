@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description/>
+        <global>true</global>
+        <ignore_in_now_experience>false</ignore_in_now_experience>
+        <name>x_376096_ccp.copy_paste</name>
+        <script><![CDATA[var x_376096_ccp = x_376096_ccp || {};
+x_376096_ccp.copy_paste = (function() {
+	"use strict";
+
+	/* global window, setTimeout */
+	/* eslint no-undef: "error" */
+	if (x_376096_ccp.copy_paste) {
+		return x_376096_ccp.copy_paste;
+	}
+
+	if (typeof window != 'undefined') {
+		init(window);
+	} else {
+		setTimeout(function () {
+			init(this);
+		});
+	}
+
+	function init($window) {
+		if (typeof $window.g_form == 'undefined') {
+			return;
+		}
+		
+		// Note: We have to filter relevant paste events:
+		// E.g. paste events in HTML fields should not result in a file upload
+		// Luckily for us, HTML fields are rendered within an iframe which already consumes
+		// the paste event
+		$window.addEventListener('paste', function handleUpload(event) {
+			const canAttach = true;
+			const showView = true;
+			const showPopup = true;
+			const files = event.clipboardData.files;
+			if (files.length) {
+				// remove event handler while uploading to prevent accidental duplicate uploads
+				$window.removeEventListener('paste', handleUpload);
+
+				let remaining = files.length;
+				for (let i = 0; i < files.length; i++) {
+					const file = files[i];				
+					const uploader = new $window.AttachmentUploader(event, files[i], i, canAttach, showView, showPopup);
+					uploader.send(_ => {
+						if (--remaining == 0) {
+							$window.addEventListener('paste', handleUpload);
+						}
+					});
+				}
+			}
+		});
+	}
+
+	return {
+		version: '1.0.0',
+		type: 'copy_paste'
+	};
+})();
+]]></script>
+        <script_name>copy_paste</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-11-17 16:12:54</sys_created_on>
+        <sys_id>68c8c7f197a2b5103c2d3f56f053af4f</sys_id>
+        <sys_mod_count>14</sys_mod_count>
+        <sys_name>x_376096_ccp.copy_paste</sys_name>
+        <sys_package display_value="ClassicUI Copy Paste" source="x_376096_ccp">eea7c7799762b5103c2d3f56f053af9d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ClassicUI Copy Paste">eea7c7799762b5103c2d3f56f053af9d</sys_scope>
+        <sys_update_name>sys_ui_script_68c8c7f197a2b5103c2d3f56f053af4f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-11-20 12:24:16</sys_updated_on>
+        <ui_type>0</ui_type>
+        <use_scoped_format>true</use_scoped_format>
+    </sys_ui_script>
+</record_update>
