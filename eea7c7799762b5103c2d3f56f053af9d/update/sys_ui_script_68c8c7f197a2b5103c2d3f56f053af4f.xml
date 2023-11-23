@@ -15,6 +15,7 @@ x_376096_ccp.copy_paste = (function() {
 		return x_376096_ccp.copy_paste;
 	}
 
+	var version = '1.0.1';
 	if (typeof window != 'undefined') {
 		init(window);
 	} else {
@@ -23,16 +24,16 @@ x_376096_ccp.copy_paste = (function() {
 		});
 	}
 
-	function init($window) {
-		if (typeof $window.g_form == 'undefined') {
-			return;
-		}
-		
+	function init($window) {		
 		// Note: We have to filter relevant paste events:
 		// E.g. paste events in HTML fields should not result in a file upload
 		// Luckily for us, HTML fields are rendered within an iframe which already consumes
 		// the paste event
 		$window.addEventListener('paste', function handleUpload(event) {
+			if (typeof $window.g_form == 'undefined') {
+				return;
+			}
+			
 			const canAttach = true;
 			const showView = true;
 			const showPopup = true;
@@ -56,7 +57,7 @@ x_376096_ccp.copy_paste = (function() {
 	}
 
 	return {
-		version: '1.0.0',
+		version: version,
 		type: 'copy_paste'
 	};
 })();
@@ -66,14 +67,14 @@ x_376096_ccp.copy_paste = (function() {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-11-17 16:12:54</sys_created_on>
         <sys_id>68c8c7f197a2b5103c2d3f56f053af4f</sys_id>
-        <sys_mod_count>14</sys_mod_count>
+        <sys_mod_count>18</sys_mod_count>
         <sys_name>x_376096_ccp.copy_paste</sys_name>
         <sys_package display_value="ClassicUI Copy Paste" source="x_376096_ccp">eea7c7799762b5103c2d3f56f053af9d</sys_package>
         <sys_policy/>
         <sys_scope display_value="ClassicUI Copy Paste">eea7c7799762b5103c2d3f56f053af9d</sys_scope>
         <sys_update_name>sys_ui_script_68c8c7f197a2b5103c2d3f56f053af4f</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-11-20 12:24:16</sys_updated_on>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2023-11-23 10:16:07</sys_updated_on>
         <ui_type>0</ui_type>
         <use_scoped_format>true</use_scoped_format>
     </sys_ui_script>
