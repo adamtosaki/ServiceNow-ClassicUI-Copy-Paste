@@ -16,7 +16,6 @@ x_376096_ccp.copy_paste = (function() {
 			return;
 		}
 		
-		let uploadInProgress = false;
 		const observer = new $window.MutationObserver(function (mutations) {
 			for (let i = 0; i < mutations.length; i++) {
 				const mutation = mutations[i];
@@ -27,35 +26,15 @@ x_376096_ccp.copy_paste = (function() {
 							const attModal = node.closest('div#attachment');
 							if (attModal && !node.classList.contains('ccp-copy-paste-injected')) {
 								node.classList.add('ccp-copy-paste-injected');
-								
-								const progressBar = attModal.querySelector("#attachment #please_wait");
+
 								attModal.addEventListener('paste', function (event) {
 									const files = event.clipboardData.files;
 									if (files.length) {
-										uploadInProgress = true;
-
-										if (progressBar) {
-											progressBar.style.display = '';
-										}
+										const input = attModal.querySelector('input[type=file]');
+										input.files = files;
+										input.dispatchEvent(new $window.Event('change'));
 									}
-
-									let remaining = files.length;
-									for (let i = 0; i < files.length; i++) {
-										const canAttach = true;
-										const showView = true;
-										const showPopup = true;
-										const uploader = new $window.AttachmentUploader(event, files[i], i, canAttach, showView, showPopup);
-										uploader.send(_ => {
-											if (--remaining == 0) {
-												uploadInProgress = false;
-
-												if (progressBar) {
-													progressBar.style.display = 'none';
-												}
-											}
-										});
-									}
-								});
+								}, true);
 							}
 						}
 					}
@@ -79,14 +58,14 @@ x_376096_ccp.copy_paste = (function() {
         <sys_created_by>markus.kraus</sys_created_by>
         <sys_created_on>2024-01-15 10:10:08</sys_created_on>
         <sys_id>720d61b897f73d103c2d3f56f053afaf</sys_id>
-        <sys_mod_count>22</sys_mod_count>
+        <sys_mod_count>37</sys_mod_count>
         <sys_name>x_376096_ccp.copy_paste</sys_name>
         <sys_package display_value="ClassicUI Copy Paste" source="x_376096_ccp">eea7c7799762b5103c2d3f56f053af9d</sys_package>
         <sys_policy/>
         <sys_scope display_value="ClassicUI Copy Paste">eea7c7799762b5103c2d3f56f053af9d</sys_scope>
         <sys_update_name>sys_ui_script_720d61b897f73d103c2d3f56f053afaf</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-01-15 19:02:48</sys_updated_on>
+        <sys_updated_on>2024-01-24 12:32:57</sys_updated_on>
         <ui_type>0</ui_type>
         <use_scoped_format>true</use_scoped_format>
     </sys_ui_script>
